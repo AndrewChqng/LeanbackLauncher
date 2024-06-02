@@ -1,11 +1,11 @@
 plugins {
-    id 'com.android.application'
-    id 'kotlin-android'
-    id 'kotlin-kapt'
+    id("com.android.application")
+    id("org.jetbrains.kotlin.android")
+    id("com.google.devtools.ksp")
 }
 
 android {
-    compileSdkVersion 33
+    compileSdk 34
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_11
         targetCompatibility JavaVersion.VERSION_11
@@ -17,11 +17,11 @@ android {
         applicationId "com.amazon.tv.leanbacklauncher"
         minSdkVersion 22
         //noinspection ExpiredTargetSdkVersion,OldTargetApi
-        targetSdkVersion 29
-        versionCode 54
-        versionName "1.54"
+        targetSdkVersion 34
+        versionCode 58
+        versionName "1.58-no-google-services"
         vectorDrawables.useSupportLibrary = true
-        resConfigs 'en', 'ru', 'uk', 'it', 'fr', 'es', 'de', 'pl'
+        resourceConfigurations += ['en', 'ru', 'uk', 'it', 'fr', 'es', 'de', 'pl', 'zh-rCN']
         setProperty("archivesBaseName", "LeanbackOnFire_v" + versionName)
     }
     packagingOptions {
@@ -47,26 +47,27 @@ android {
 }
 
 dependencies {
-    def leanback_version = "1.2.0-alpha02" // "1.0.0"
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     // kotlin
-    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.4'
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:${kotlin_coroutines_version}"
     // androidx
-    implementation 'androidx.appcompat:appcompat:1.5.1'
-    implementation 'androidx.core:core-ktx:1.9.0'
-    implementation "androidx.leanback:leanback:$leanback_version"
-    implementation "androidx.leanback:leanback-preference:$leanback_version"
-    implementation 'androidx.lifecycle:lifecycle-process:2.5.1'
-    implementation 'androidx.lifecycle:lifecycle-runtime-ktx:2.5.1'
-    implementation 'androidx.palette:palette-ktx:1.0.0'
+    implementation "androidx.appcompat:appcompat:${appcompat_version}"
+    implementation "androidx.core:core-ktx:${core_ktx_version}"
+    implementation "androidx.leanback:leanback:${leanback_version}"
+    implementation "androidx.leanback:leanback-preference:${leanback_version}"
+    implementation "androidx.lifecycle:lifecycle-process:${lifecycle_version}"
+    implementation "androidx.lifecycle:lifecycle-runtime-ktx:${lifecycle_version}"
+    implementation "androidx.palette:palette-ktx:${palette_version}"
+    // exoplayer
+    implementation "com.google.android.exoplayer:exoplayer:${exoplayer_version}"
     // glide
-    implementation 'com.github.bumptech.glide:glide:4.13.1'
-    kapt 'com.github.bumptech.glide:compiler:4.13.1'
-    implementation 'com.google.guava:guava:30.1.1-jre'
-    implementation 'com.google.code.gson:gson:2.9.0'
-    implementation 'com.google.android.material:material:1.7.0'
+    implementation "com.github.bumptech.glide:glide:${glideVersion}"
+    ksp "com.github.bumptech.glide:ksp:${glideVersion}"
+    implementation "com.google.guava:guava:${guava_version}"
+    implementation "com.google.code.gson:gson:${gson_version}"
+    implementation "com.google.android.material:material:${material_version}"
     // LocalWeather
-    implementation 'com.github.interaapps:LocalWeather-Android:2.0'
+    implementation "com.github.interaapps:LocalWeather-Android:${localweather_version}"
 }
 
 repositories {

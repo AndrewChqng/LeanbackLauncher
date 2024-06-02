@@ -10,6 +10,7 @@ import android.provider.Settings
 import android.util.Log
 import androidx.core.content.ContextCompat.startActivity
 import com.amazon.tv.leanbacklauncher.BuildConfig
+import com.amazon.tv.leanbacklauncher.LauncherApp
 import java.io.PrintWriter
 import java.io.StringWriter
 
@@ -137,6 +138,13 @@ object FireTVUtils {
 
     val systemSettingsIntent: Intent
         get() {
+            if (isAmazonLauncherEnabled(LauncherApp.context)) {
+                val intent = Intent("android.intent.action.MAIN")
+                intent.setPackage("com.amazon.tv.launcher")
+                intent.component = ComponentName.unflattenFromString("com.amazon.tv.launcher/.ui.MainSettingsActivity")
+                intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK
+                return intent
+            }
             val intent = Intent(Settings.ACTION_SETTINGS)
             intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK
             return intent

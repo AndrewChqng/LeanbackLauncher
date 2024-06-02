@@ -62,10 +62,19 @@ class LaunchPointList(ctx: Context) {
                 return when {
                     point?.toString()
                         ?.contains("com.amazon.tv.leanbacklauncher.MainActivity") == true -> true
+
                     point?.toString()
                         ?.contains("com.amazon.tv.launcher/.ui.DebugActivity") == true -> true
-                    point?.activityInfo?.packageName?.startsWith("com.amazon.avod") == true -> true
-                    point?.activityInfo?.packageName?.startsWith("com.amazon.bueller") == true -> true
+
+                    point?.toString()
+                        ?.contains("com.amazon.bueller.photos/com.amazon.gallery.thor.app.activity.LauncherActivity") == true -> true
+
+                    point?.toString()
+                        ?.contains("com.samabox.dashboard/.ui.apps.MainActivity") == true -> true
+
+                    point?.activityInfo?.packageName?.startsWith("com.amazon.avod") == true -> true // FTV Video Player
+                    point?.activityInfo?.packageName?.startsWith("com.amazon.ags.app") == true -> true // Game Circle
+                    point?.activityInfo?.packageName?.startsWith("com.amazon.ftv.profilepicker") == true -> true
                     point?.activityInfo?.packageName?.startsWith("com.amazon.ftv.screensaver") == true -> true
                     else -> false
                 }
@@ -178,7 +187,11 @@ class LaunchPointList(ctx: Context) {
             val allLaunchPoints: MutableList<ResolveInfo> = ArrayList()
             if (tvLaunchPoints.size > 0) {
                 for (itemTvLaunchPoint in tvLaunchPoints) {
-                    if (itemTvLaunchPoint.activityInfo != null && itemTvLaunchPoint.activityInfo.packageName != null && itemTvLaunchPoint.activityInfo.name != null) {
+                    if (itemTvLaunchPoint.activityInfo != null &&
+                        itemTvLaunchPoint.activityInfo.packageName != null &&
+                        itemTvLaunchPoint.activityInfo.name != null &&
+                        !rawFilter.include(itemTvLaunchPoint)
+                    ) {
                         rawComponents[itemTvLaunchPoint.activityInfo.packageName] =
                             itemTvLaunchPoint.activityInfo.name
                         allLaunchPoints.add(itemTvLaunchPoint)
@@ -209,13 +222,16 @@ class LaunchPointList(ctx: Context) {
                     launcherItems.add(LaunchPoint(mContext, pkgMan, info))
                 }
             }
+//            for (lp in launcherItems) {
+//                Log.d(TAG, "***** dump: ${lp.dump()}")
+//            }
             return launcherItems
         }
 
-        override fun onPostExecute(launcherItems: List<LaunchPoint>?) {
+        override fun onPostExecute(result: List<LaunchPoint>?) {
             synchronized(mLock) {
                 mAllLaunchPoints = ArrayList()
-                launcherItems?.let {
+                result?.let {
                     mAllLaunchPoints.addAll(it)
                 }
             }
@@ -594,21 +610,25 @@ class LaunchPointList(ctx: Context) {
                     childList.add(lp)
                 }
             }
+
             AppCategory.MUSIC -> for (lp in parentList) {
                 if (!isFavorited(lp.packageName) && !isBlacklisted(lp.packageName) && lp.appCategory == AppCategory.MUSIC) {
                     childList.add(lp)
                 }
             }
+
             AppCategory.GAME -> for (lp in parentList) {
                 if (!isFavorited(lp.packageName) && !isBlacklisted(lp.packageName) && lp.isGame) {
                     childList.add(lp)
                 }
             }
+
             AppCategory.OTHER -> for (lp in parentList) {
                 if (!isFavorited(lp.packageName) && !isBlacklisted(lp.packageName) && lp.appCategory == AppCategory.OTHER) {
                     childList.add(lp)
                 }
             }
+
             AppCategory.SETTINGS -> childList.addAll(getSettingsLaunchPoints(false))
         }
     }
@@ -725,7 +745,7 @@ class LaunchPointList(ctx: Context) {
             if (specialEntries.containsKey(comp)) {
                 type = specialEntries[comp]!! // WI-FI
             }
-            if (info.activityInfo != null) {
+            if (info.activityInfo != null && info.activityInfo.packageName != "com.amazon.tv.launcher") { // KFTV Settings is special case
                 lp = LaunchPoint(mContext, pkgMan, info, false, type)
                 lp.addLaunchIntentFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
                 // lp.setPriority(0);

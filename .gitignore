@@ -21,3 +21,4 @@ app/.project
 app/google-services.json
 app/release
 app/debug
+.idea

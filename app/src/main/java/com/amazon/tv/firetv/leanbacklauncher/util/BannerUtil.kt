@@ -15,6 +15,7 @@ object BannerUtil {
         BANNER_OVERRIDES["com.amazon.avod"] = R.drawable.banner_amazon_prime
         BANNER_OVERRIDES["com.amazon.hedwig"] = R.drawable.banner_hedwig
         BANNER_OVERRIDES["com.amazon.cloud9"] = R.drawable.banner_silk
+        BANNER_OVERRIDES["com.amazon.tahoe"] = R.drawable.banner_amazon_kids
         BANNER_OVERRIDES["com.amazon.imdb.tv.android.app"] = R.drawable.banner_amazon_imdbtv
         BANNER_OVERRIDES["com.niklabs.pp"] = R.drawable.banner_pp
         BANNER_OVERRIDES["de.radio.android"] = R.drawable.banner_radio_net
