@@ -52,25 +52,25 @@ android {
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     // kotlin
-    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:${kotlin_coroutines_version}"
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.8.1"
     // androidx
-    implementation "androidx.appcompat:appcompat:${appcompat_version}"
-    implementation "androidx.core:core-ktx:${core_ktx_version}"
-    implementation "androidx.leanback:leanback:${leanback_version}"
-    implementation "androidx.leanback:leanback-preference:${leanback_version}"
-    implementation "androidx.lifecycle:lifecycle-process:${lifecycle_version}"
-    implementation "androidx.lifecycle:lifecycle-runtime-ktx:${lifecycle_version}"
-    implementation "androidx.palette:palette-ktx:${palette_version}"
+    implementation "androidx.appcompat:appcompat:1.7.0"
+    implementation "androidx.core:core-ktx:1.13.1"
+    implementation "androidx.leanback:leanback:1.2.0-alpha04"
+    implementation "androidx.leanback:leanback-preference:1.2.0-alpha04"
+    implementation "androidx.lifecycle:lifecycle-process:2.8.1"
+    implementation "androidx.lifecycle:lifecycle-runtime-ktx:2.8.1"
+    implementation "androidx.palette:palette-ktx:1.0.0"
     // exoplayer
-    implementation "com.google.android.exoplayer:exoplayer:${exoplayer_version}"
+    implementation "com.google.android.exoplayer:exoplayer:2.19.1"
     // glide
-    implementation "com.github.bumptech.glide:glide:${glideVersion}"
-    ksp "com.github.bumptech.glide:ksp:${glideVersion}"
-    implementation "com.google.guava:guava:${guava_version}"
-    implementation "com.google.code.gson:gson:${gson_version}"
-    implementation "com.google.android.material:material:${material_version}"
+    implementation "com.github.bumptech.glide:glide:4.16.0"
+    ksp "com.github.bumptech.glide:ksp:4.16.0"
+    implementation "com.google.guava:guava:32.0.1-jre"
+    implementation "com.google.code.gson:gson:2.11.0"
+    implementation "com.google.android.material:material:1.12.0"
     // LocalWeather
-    implementation "com.github.interaapps:LocalWeather-Android:${localweather_version}"
+    implementation "com.github.interaapps:LocalWeather-Android:2.0"
 }
 
 repositories {
