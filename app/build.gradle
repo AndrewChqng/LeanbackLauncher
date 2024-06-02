@@ -18,8 +18,8 @@ android {
         minSdkVersion 22
         //noinspection ExpiredTargetSdkVersion,OldTargetApi
         targetSdkVersion 34
-        versionCode 58
-        versionName "1.58-no-google-services"
+        versionCode 59
+        versionName "1.59-no-google-services"
         vectorDrawables.useSupportLibrary = true
         resourceConfigurations += ['en', 'ru', 'uk', 'it', 'fr', 'es', 'de', 'pl', 'zh-rCN']
         setProperty("archivesBaseName", "LeanbackOnFire_v" + versionName)
@@ -44,6 +44,9 @@ android {
         abortOnError false
     }
     namespace 'com.amazon.tv.leanbacklauncher'
+    buildFeatures {
+        buildConfig true
+    }
 }
 
 dependencies {

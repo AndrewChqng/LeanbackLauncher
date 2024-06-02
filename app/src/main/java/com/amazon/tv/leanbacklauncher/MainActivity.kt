@@ -341,7 +341,7 @@ class MainActivity : AppCompatActivity(), OnEditModeChangedListener,
                 )
                 try {
                     startActivityForResult(intent, 0)
-                } catch (e: Exception) {
+                } catch (_: Exception) {
                 }
             }
         }
@@ -520,6 +520,7 @@ class MainActivity : AppCompatActivity(), OnEditModeChangedListener,
     }
 
     override fun onBackPressed() {
+        super.onBackPressed()
         when {
             isInEditMode -> {
                 editModeView?.onBackPressed()
@@ -887,17 +888,8 @@ class MainActivity : AppCompatActivity(), OnEditModeChangedListener,
 
     private fun getCardinalDirection(angle: Double): String {
         // ("↑", "↗", "→", "↘", "↓", "↙", "←", "↖")
-        val directions = if (localWeather!!.lang == Lang.RUSSIAN) listOf(
-            "C",
-            "СВ",
-            "В",
-            "ЮВ",
-            "Ю",
-            "ЮЗ",
-            "З",
-            "СЗ",
-            "C"
-        )
+        val directions = if (localWeather!!.lang == Lang.RUSSIAN)
+            listOf("C", "СВ", "В", "ЮВ", "Ю", "ЮЗ", "З", "СЗ", "C")
         else
             listOf("N", "NE", "E", "SE", "S", "SW", "W", "NW", "N")
         return directions[(angle % 360 / 45).roundToInt()]
@@ -1400,33 +1392,33 @@ class MainActivity : AppCompatActivity(), OnEditModeChangedListener,
 
     private val currentScrollPos: Int
         get() {
-            var pos = 0
+            var position = 0
             var topView = -1
-            var i = 0
-            while (i < mList!!.childCount) {
-                val v = mList!!.getChildAt(i)
-                if (v == null || v.top > 0) {
-                    i++
+            var index = 0
+            while (index < mList!!.childCount) {
+                val child = mList!!.getChildAt(index)
+                if (child == null || child.top > 0) {
+                    index++
                 } else {
-                    topView = mList!!.getChildAdapterPosition(v)
-                    if (v.measuredHeight > 0) {
-                        pos = (homeAdapter!!.getScrollOffset(topView)
-                            .toFloat() * (abs(v.top).toFloat() / v.measuredHeight.toFloat()) * -1.0f).toInt()
+                    topView = mList!!.getChildAdapterPosition(child)
+                    if (child.measuredHeight > 0) {
+                        position = (homeAdapter!!.getScrollOffset(topView)
+                            .toFloat() * (abs(child.top).toFloat() / child.measuredHeight.toFloat()) * -1.0f).toInt()
                     }
                     topView--
                     while (topView >= 0) {
-                        pos -= homeAdapter!!.getScrollOffset(topView)
+                        position -= homeAdapter!!.getScrollOffset(topView)
                         topView--
                     }
-                    return pos
+                    return position
                 }
             }
             topView--
             while (topView >= 0) {
-                pos -= homeAdapter!!.getScrollOffset(topView)
+                position -= homeAdapter!!.getScrollOffset(topView)
                 topView--
             }
-            return pos
+            return position
         }
 
     private fun onNotificationRowStateUpdate(state: Int) {
